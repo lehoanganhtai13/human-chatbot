@@ -5,13 +5,17 @@ from datetime import timedelta
 
 from dotenv import load_dotenv
 
+import nltk
+nltk.download('punkt')
+nltk.download('punkt_tab')
+from nltk.tokenize import sent_tokenize
+
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import StreamingResponse
 from contextlib import asynccontextmanager
 from llama_index.core.data_structs import Node
 from llama_index.core.schema import NodeWithScore
-from langdetect import detect
 from deep_translator import GoogleTranslator
 
 
@@ -22,12 +26,14 @@ from wrappers import Generator, LLMCore, ChatStore
 async def lifespan(app: FastAPI):
     global generator
     global chat_store
-    global translator
+    global en_translator
+    global ko_translator
 
     os.environ["NO_PROXY"] = "172.16.87.91"
 
     print("Initializing the translator...")
-    translator = GoogleTranslator()
+    en_translator = GoogleTranslator(source="auto", target="en")
+    ko_translator = GoogleTranslator(source="auto", target="ko")
 
     print("Initializing the chat store...")
     chat_store = ChatStore(
@@ -55,6 +61,11 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+def capitalize_sentences(text):
+    sentences = sent_tokenize(text)
+    capitalized_sentences = [sentence.capitalize() for sentence in sentences]
+    return ' '.join(capitalized_sentences)
+
 @app.post("/query")
 async def generate(user_id: str, query: str):
     if not user_id:
@@ -64,27 +75,31 @@ async def generate(user_id: str, query: str):
         raise HTTPException(status_code=400, detail="Query cannot be empty")
 
     # Detect the language of the query
-    lan = detect(query)
-    if lan != "en": # Translate the query to English
-        translator.source = lan
-        print(lan)
-        translator.target = "en"
-        query = translator.translate(query)
+    query = capitalize_sentences(query)
+    
+    lan = "en"
+    en_text = en_translator.translate(query)
+    if en_text != query:
+        ko_text = ko_translator.translate(query)
+        if ko_text != query:
+            return {"language": "other", "text": "Sorry dad, I can only understand English and Korean."}
+        else:
+            lan = "ko"
+
+            # Mix the user ID with the query
+            mixed_query = f"|{user_id}|{query}"
+
+            generator.streaming = False
+            text = generator.generate(query=mixed_query, nodes=[NodeWithScore(node=Node(text=" "), score=0)])
+            generator.streaming = True
+
+            # Translate the response back to the user's language
+            text = capitalize_sentences(ko_translator.translate(text))
+
+            return {"language": lan, "text": text}
 
     # Mix the user ID with the query
     mixed_query = f"|{user_id}|{query}"
-
-    if lan != "en":
-        generator.streaming = False
-        text = generator.generate(query=mixed_query, nodes=[NodeWithScore(node=Node(text=" "), score=0)])
-        generator.streaming = True
-
-        # Translate the response back to the user's language
-        translator.source = "en"
-        translator.target = lan
-        text = translator.translate(text).capitalize()
-
-        return {"language": lan, "text": text}
 
     # Generate a response stream
     streamer = generator.generate(query=mixed_query, nodes=[NodeWithScore(node=Node(text=" "), score=0)])

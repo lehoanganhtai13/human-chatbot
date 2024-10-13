@@ -10,7 +10,6 @@ fastapi==0.115.0
 gunicorn==23.0.0
 idna==3.10
 jiter==0.6.1
-langdetect==1.0.9
 llama-cloud==0.1.2
 llama-index==0.11.17
 llama-index-agent-openai==0.3.4
@@ -27,6 +26,7 @@ llama-index-readers-file==0.2.2
 llama-index-readers-llama-parse==0.3.0
 llama-index-storage-chat-store-redis==0.3.2
 llama-parse==0.5.7
+nltk==3.9.1
 numpy==1.26.4
 pillow==10.4.0
 pip==24.2

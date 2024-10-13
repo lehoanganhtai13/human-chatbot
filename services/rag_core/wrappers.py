@@ -1,6 +1,11 @@
 from typing import Any, List, Dict
 import requests
 
+import nltk
+nltk.download('punkt')
+nltk.download('punkt_tab')
+from nltk.tokenize import sent_tokenize
+
 from deep_translator import GoogleTranslator
 from llama_index.core import get_response_synthesizer
 from llama_index.core.embeddings import BaseEmbedding
@@ -20,10 +25,17 @@ class ChatStore():
 
     def chat_messages_to_dict(self, messages, en_translate=False):
         """Convert chat messages to LLM chat format with translation."""
+
+        def capitalize_sentences(text):
+            sentences = sent_tokenize(text)
+            capitalized_sentences = [sentence.capitalize() for sentence in sentences]
+            return ' '.join(capitalized_sentences)
+        
+
         en_translator = GoogleTranslator(source="auto", target="en")
         messages_dict = []
         for message in messages:
-            content = message.content if not en_translate else en_translator.translate(message.content).capitalize()
+            content = message.content if not en_translate else capitalize_sentences(en_translator.translate(message.content))
             messages_dict.append({"role": message.role.value, "content": content})
         return messages_dict
 

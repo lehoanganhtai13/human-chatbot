@@ -43,7 +43,6 @@ def store_chat(user_id: str, query: str, response: str):
 
 # Get chat history from the server
 chat_history = requests.get(f"{RAG_CORE_URL}/get_chat_history?user_id={USER_ID}").json()
-print(chat_history)
 
 # Initialize the chat history in the session state
 if "chat_history" not in st.session_state and not chat_history:
