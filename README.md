@@ -154,15 +154,15 @@ The following steps will help you to get the system up and running:
     You will get the following result, which means that the system is all setup:
     ```bash
     IMAGE                                       STATUS                                  PORTS                                                                                      NAMES
-    valkey/valkey:8.0.1                         Up 20 hours                             0.0.0.0:6379->6379/tcp, :::6379->6379/tcp                                                  valkey
+    valkey/valkey:8.0.1                         Up 20 seconds                           0.0.0.0:6379->6379/tcp, :::6379->6379/tcp                                                  valkey
     nginx:latest                                Up 18 seconds                           0.0.0.0:80->80/tcp, :::80->80/tcp                                                          nginx
     zilliz/attu:v2.4.7                          Up 14 seconds                           0.0.0.0:3000->3000/tcp, :::3000->3000/tcp                                                  milvus-attu-container
     milvusdb/milvus:v2.4.9                      Up 14 seconds (healthy)                 0.0.0.0:9091->9091/tcp, :::9091->9091/tcp, 0.0.0.0:19530->19530/tcp, :::19530->19530/tcp   milvus-standalone-container
     quay.io/coreos/etcd:v3.5.5                  Up 14 seconds (healthy)                 2379-2380/tcp                                                                              milvus-etcd-container
-    minio/minio:RELEASE.2024-08-29T01-40-52Z    Up 10 seconds (healthy)                 0.0.0.0:9020->9000/tcp, :::9020->9000/tcp, 0.0.0.0:9021->9001/tcp, :::9021->9001/tcp       minio-storage-container
+    minio/minio:RELEASE.2024-08-29T01-40-52Z    Up 10 seconds (healthy)                 0.0.0.0:9020->9000/tcp, :::9020->9000/tcp, 0.0.0.0:9031->9001/tcp, :::9021->9001/tcp       minio-storage-container
     ```
 - You can access to the management console of these services:
-    - Storage **MinIO**: `http://<HOST>:9021/`
+    - Storage **MinIO**: `http://<HOST>:9031/`
     - Vector database **Milvus**: `http://<HOST>:3000/`
     - Model serving **FastAPI**: `http://<HOST>:8000/docs`, `http://<HOST>:8001/docs`, `http://<HOST>:8002/docs`
     - UI **Streamlit**: `http://<HOST>:8501/`
