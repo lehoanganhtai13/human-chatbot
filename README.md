@@ -134,7 +134,7 @@ The following steps will help you to get the system up and running:
    gunicorn -c gunicorn_conf.py llm-app:app
    ```
    ```bash
-   cd model-serving/eranker
+   cd model-serving/re-ranker
    gunicorn -c gunicorn_conf.py reranker-app:app
     ```
 - Then, when all the base services are ready, we can now start the server:
