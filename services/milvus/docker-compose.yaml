@@ -1,0 +1,85 @@
+# Reference: https://github.com/milvus-io/milvus/blob/master/deployments/docker/standalone/docker-compose.yml
+
+services:
+  milvus-etcd:
+    hostname: milvus-etcd
+    container_name: milvus-etcd-container
+    image: quay.io/coreos/etcd:v3.5.5
+    environment:
+      - ETCD_AUTO_COMPACTION_MODE=revision
+      - ETCD_AUTO_COMPACTION_RETENTION=1000
+      - ETCD_QUOTA_BACKEND_BYTES=4294967296
+      - ETCD_SNAPSHOT_COUNT=50000
+      - NO_PROXY=localhost,milvus-standalone,minio-storage,${NETWORK_SUBNET}
+      - no_proxy=localhost,milvus-standalone,minio-storage,${NETWORK_SUBNET}
+    volumes:
+      - ./.data/etcd:/etcd
+    command: etcd -advertise-client-urls=http://127.0.0.1:2379 -listen-client-urls http://0.0.0.0:2379 --data-dir /etcd
+    healthcheck:
+      test: ["CMD", "etcdctl", "endpoint", "health"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - human-chatbot
+    env_file:
+      - .env
+
+  milvus-standalone:
+    hostname: milvus-standalone
+    container_name: milvus-standalone-container
+    image: milvusdb/milvus:v2.4.9
+    command: ["milvus", "run", "standalone"]
+    security_opt:
+    - seccomp:unconfined
+    environment:
+      ETCD_ENDPOINTS: milvus-etcd:2379
+      MINIO_ADDRESS: minio-storage:9000
+      MINIO_ACCESS_KEY_ID: ${MINIO_ACCESS_KEY_ID}
+      MINIO_SECRET_ACCESS_KEY: ${MINIO_SECRET_ACCESS_KEY}
+      MINIO_BUCKET_NAME: ${MINIO_BUCKET_NAME}
+      NO_PROXY: localhost,milvus-etcd,minio-storage,${NETWORK_SUBNET}
+      no_proxy: localhost,mulvus-etcd,minio-storage,${NETWORK_SUBNET}
+    volumes:
+      - ./.data/milvus:/var/lib/milvus
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
+      interval: 30s
+      start_period: 90s
+      timeout: 20s
+      retries: 3
+    ports:
+      - "19530:19530"
+      - "9091:9091"
+    depends_on:
+      milvus-etcd:
+        condition: service_healthy
+    networks:
+      - human-chatbot
+    env_file:
+      - .env
+
+  milvus-attu:
+    hostname: milvus-attu
+    container_name: milvus-attu-container
+    image:  zilliz/attu:v2.4.7
+    environment:
+      MILVUS_URL: milvus-standalone:19530
+      NO_PROXY: localhost,milvus-etcd,milvus-standalone,minio-storage,${NETWORK_SUBNET}
+      no_proxy: localhost,mulvus-etcd,milvus-standalone,minio-storage,${NETWORK_SUBNET}
+    ports:
+      - "3000:3000"
+    depends_on:
+      milvus-standalone:
+        condition: service_healthy
+      milvus-etcd:
+        condition: service_healthy
+    networks:
+      - human-chatbot
+    env_file:
+      - .env
+
+networks:
+  human-chatbot:
+    name: human-chatbot
+    external: true

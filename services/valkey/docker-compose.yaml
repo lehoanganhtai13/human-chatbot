@@ -1,0 +1,23 @@
+services:
+  valkey:
+    image: valkey/valkey:8.0.1
+    container_name: valkey
+    hostname: valkey
+    environment:
+      NO_PROXY: localhost,rag-core,${NETWORK_SUBNET}
+      no_proxy: localhost,rag-core,${NETWORK_SUBNET}
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./.data:/var/lib/valkey
+      - ./valkey.conf:/etc/valkey/valkey.conf
+    command: ["valkey-server", "/etc/valkey/valkey.conf"]
+    env_file:
+      - .env
+
+networks: 
+  human-chatbot:
+    name: human-chatbot
+    external: true
+
+# For CLI information, see https://redis.io/docs/latest/develop/connect/cli/ using valkey-cli
