@@ -123,6 +123,9 @@ The following steps will help you to get the system up and running:
    make up-milvus
    ```
    ```bash
+   make up-model
+   ```
+   ```bash
    cd model-serving/embedder
    gunicorn -c gunicorn_conf.py embedder-app:app
    ```
