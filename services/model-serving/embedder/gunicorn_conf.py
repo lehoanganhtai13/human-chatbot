@@ -1,5 +1,5 @@
 # Worker Options
-workers = 4
+workers = 1
 worker_class = "uvicorn.workers.UvicornWorker"
 worker_tmp_dir = "/dev/shm" # Use a RAM disk for the worker temporary files
 
@@ -16,5 +16,5 @@ loglevel = "info"
 preload_app = True
 
 # Access log
-# accesslog = "./logs/access.log"
-# errorlog = "./logs/error.log"
+accesslog = "./logs/access.log"
+errorlog = "./logs/error.log"

@@ -4,16 +4,16 @@ services:
     container_name: valkey
     hostname: valkey
     environment:
-      NO_PROXY: localhost,rag-core,${NETWORK_SUBNET}
-      no_proxy: localhost,rag-core,${NETWORK_SUBNET}
+      NO_PROXY: localhost,chatbot-server,${NETWORK_SUBNET}
+      no_proxy: localhost,chatbot-server,${NETWORK_SUBNET}
     ports:
       - "6379:6379"
     volumes:
       - ./.data:/var/lib/valkey
       - ./valkey.conf:/etc/valkey/valkey.conf
     command: ["valkey-server", "/etc/valkey/valkey.conf"]
-    env_file:
-      - .env
+    networks:
+      - human-chatbot
 
 networks: 
   human-chatbot:

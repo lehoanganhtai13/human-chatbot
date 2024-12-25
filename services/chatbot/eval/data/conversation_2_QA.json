@@ -1,0 +1,77 @@
+[
+  {
+    "question": "About your Mom's birthday that we planned, what are we going to do?",
+    "answer": [
+      "trip to Shanghai",
+      "leave on the 15th and stay for four days, three nights",
+      "dinner at the 'Diamond' restaurant",
+      "dinner at the \"Diamond\" restaurant"
+    ]
+  },
+  {
+    "question": "About your Mom's birthday, what am I going to give her for her birthday gift?",
+    "answer": [
+      "Louis Vuitton handbag"
+    ]
+  },
+  {
+    "question": "About your Mom's birthday that we planned, when will I give your Mom her birthday present?",
+    "answer": [
+      "during dinner at the 'Diamond' restaurant",
+      "during dinner at the \"Diamond\" restaurant"
+    ]
+  },
+  {
+    "question": "About your Mom's birthday that we planned, what is the name of the restaurant that we are going to eat at?",
+    "answer": [
+      "Diamond",
+      "Diamond restaurant",
+      "'Diamond' restaurant",
+      "\"Diamond\" restaurant"
+    ]
+  },
+  {
+    "question": "About your Mom's birthday, when will I give your Mom her birthday present?",
+    "answer": [
+      "December 17th",
+      "17th December",
+      "17th of December",
+      "17/12"
+    ]
+  },
+  {
+    "question": "About your Mom's birthday, when are we going to leave for Shanghai?",
+    "answer": [
+      "December 15th",
+      "15th December",
+      "15th of December",
+      "15/12"
+    ]
+  },
+  {
+    "question": "About your Mom's birthday, how many days are we going to stay in Shanghai?",
+    "answer": [
+      "four days, three nights",
+      "four days",
+      "three nights",
+      "3 nights",
+      "4 days",
+      "4-day trip",
+      "3-night trip"
+    ]
+  },
+  {
+    "question": "About your Mom's birthday, what time are we going to eat dinner during your Mom's birthday?",
+    "answer": [
+      "6 PM",
+      "6:00 PM",
+      "6 pm"
+    ]
+  },
+  {
+    "question": "About your Mom's birthday, which city are we going to visit?",
+    "answer": [
+      "Shanghai"
+    ]
+  }
+]

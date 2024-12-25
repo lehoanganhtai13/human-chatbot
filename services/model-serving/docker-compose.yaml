@@ -1,20 +1,71 @@
 services:
-  nginx:
-    image: nginx:latest
-    container_name: nginx
+  model-serving-embedder:
+    hostname: model-serving-embedder
+    container_name: model-serving-embedder
+    restart: always
+    build:
+      context: .
+      dockerfile: ./embedder/Dockerfile
+      args:
+        SERVICE_DIR: embedder
+      tags:
+        - "chatbot/model-serving-embedder:latest"
+    image: chatbot/model-serving-embedder:latest
     ports:
-      - "80:80"
+      - "8011:8000"
     environment:
-      NO_PROXY: localhost,rag-core,streamlit,${NETWORK_SUBNET}
-      no_proxy: localhost,rag-core,streamlit,${NETWORK_SUBNET}
+      PROMETHEUS_MULTIPROC_DIR: /app/prometheus_multiproc
+      EMBEDDER_MODEL_ID: ${EMBEDDER_MODEL_ID}
+      EMBEDDER_DEVICE: ${EMBEDDER_DEVICE}
+      NVIDIA_VISIBLE_DEVICES: all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     volumes:
-      - ./nginx/nginx.conf.template:/etc/nginx/conf.d/nginx.conf.template
-      - ./nginx/run.sh:/run.sh
+      - ./embedder/logs:/app/logs
+      - ./embedder/prometheus_multiproc:/app/prometheus_multiproc
+      - ./.cache:/app/cache
+    command: gunicorn -c gunicorn_conf.py app:app
     networks:
       - human-chatbot
-    env_file:
-      - .env
-    entrypoint: /run.sh
+
+  model-serving-llm:
+    hostname: model-serving-llm
+    container_name: model-serving-llm
+    image: vllm/vllm-openai:v0.6.5
+    ipc: host
+    restart: always
+    ports:
+      - "8013:8000"
+    environment:
+      HF_HUB_ENABLE_HF_TRANSFER: False
+      NVIDIA_VISIBLE_DEVICES: all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      - ./.cache:/root/.cache/huggingface/hub
+    command: [
+      "--model", "${LOCAL_LLM_MODEL_ID}",
+      "--device", "${LLM_DEVICE}",
+      "--max-model-len", "${MAX_CONTEXT_LEN}",
+      "--gpu-memory-utilization", "${GPU_MEMORY_UTILIZATION}",
+      "--dtype", "${LOCAL_LLM_DTYPE}",
+      "--trust-remote-code",
+      "--disable-frontend-multiprocessing",
+      "--enforce-eager",
+      "--port", "8000"
+    ]
+    networks:
+      - human-chatbot
   
 networks:
   human-chatbot:

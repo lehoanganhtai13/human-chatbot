@@ -1,0 +1,47 @@
+[
+  {
+    "question": "For the dinner that we planned for tonight, what type of food are we going to eat?",
+    "answer": [
+      "barbecue",
+      "Korean barbecue",
+      "BBQ",
+      "Korean BBQ",
+      "bbq",
+      "king bbq"
+    ]
+  },
+  {
+    "question": "For the dinner that we planned for tonight, what is the name of the restaurant that we are going to eat barbecue at?",
+    "answer": [
+      "King BBQ",
+      "King BBQ restaurant",
+      "King BBQ Restaurant",
+      "king bbq"
+    ]
+  },
+  {
+    "question": "For the dinner that we planned for tonight, what is the name of the movie that we are going to watch tonight?",
+    "answer": [
+      "Love from First Sight",
+      "\"Love from First Sight\"",
+      "Love from First Sight movie",
+      "\"Love from First Sight\" movie"
+    ]
+  },
+  {
+    "question": "For the dinner that we planned for tonight, what time are we going to eat at King BBQ restaurant?",
+    "answer": [
+      "6 pm",
+      "6:00 pm",
+      "6 PM"
+    ]
+  },
+  {
+    "question": "What time are we going to watch the movie Love from First Sight after having dinner at 6 pm tonight?",
+    "answer": [
+      "8 pm",
+      "8:00 pm",
+      "8 PM"
+    ]
+  }
+]

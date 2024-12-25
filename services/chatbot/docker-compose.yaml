@@ -1,0 +1,29 @@
+services:
+  chatbot-server:
+    hostname: chatbot-server
+    container_name: chatbot-server
+    restart: always
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      tags:
+        - "chatbot/chatbot-server:latest"
+    image: chatbot/chatbot-server:latest
+    ports:
+      - "8050:8000"
+    environment:
+      PROMETHEUS_MULTIPROC_DIR: /app/prometheus_multiproc
+      ENVIRONMENT_FILE: /app/environment/.env
+    volumes:
+      - ./logs:/app/logs
+      - ./prometheus_multiproc:/app/prometheus_multiproc
+      - ./../../environment:/app/environment:ro
+      - .:/app/chatbot
+    command: uvicorn chatbot.chatbot_app:app --host 0.0.0.0 --port 8000 --reload --loop asyncio
+    networks:
+      - human-chatbot
+  
+networks:
+  human-chatbot:
+    name: human-chatbot
+    external: true

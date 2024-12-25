@@ -1,0 +1,62 @@
+[
+  {
+    "question": "About the World Cup match, what teams are playing in the World Cup match that we bet on?",
+    "answer": [
+      "Argentina vs France",
+      "Argentina and France",
+      "France and Argentina",
+      "France vs Argentina"
+    ]
+  },
+  {
+    "question": "About the World Cup match between Argentina and France, who is the one that I'm fan of?",
+    "answer": [
+      "Messi"
+    ]
+  },
+  {
+    "question": "About the World Cup match between Argentina and France, who is the one that you're fan of?",
+    "answer": [
+      "Mbappe",
+      "Kylian Mbappe",
+      "Mbappé",
+      "Kylian Mbappé"
+    ]
+  },
+  {
+    "question": "About the World Cup match, what score did I predict Argentina will win against France?",
+    "answer": [
+      "3-1"
+    ]
+  },
+  {
+    "question": "About the World Cup match, what score did you predict France will win against Argentina?",
+    "answer": [
+      "2-1"
+    ]
+  },
+  {
+    "question": "About the World Cup match, what is the name of the restaurant that we are going to eat at if you lose the bet?",
+    "answer": [
+      "King Star"
+    ]
+  },
+  {
+    "question": "About the World Cup match, when will the World Cup match between Argentina and France take place?",
+    "answer": [
+      "Monday"
+    ]
+  },
+  {
+    "question": "About the World Cup match, what are we going to do if one of us loses the bet?",
+    "answer": [
+      "fine-dining experience",
+      "buy dinner at 'King Star'",
+      "buy dinner at \"King Star\"",
+      "King Star",
+      "fine-dining",
+      "buy dinner",
+      "fine dining"
+    ]
+  }
+]

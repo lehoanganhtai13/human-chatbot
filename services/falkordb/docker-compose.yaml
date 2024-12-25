@@ -1,0 +1,21 @@
+services:  
+  falkordb:
+    image: falkordb/falkordb:edge
+    hostname: falkordb
+    container_name: falkordb
+    restart: always
+    ports:
+      - "6380:6379"
+      - "3000:3000" # For the web interface
+    volumes:
+      - ./.data:/var/lib/falkordb
+      - ./falkordb.conf:/etc/falkordb/falkordb.conf
+      - ./start.sh:/start.sh
+    command: ["/bin/bash", "/start.sh"]
+    networks:
+      - human-chatbot
+
+networks: 
+  human-chatbot:
+    name: human-chatbot
+    external: true

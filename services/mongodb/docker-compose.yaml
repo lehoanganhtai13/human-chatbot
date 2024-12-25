@@ -1,0 +1,21 @@
+services:
+  mongodb:
+    image: mongo:latest
+    hostname: mongodb
+    container_name: mongodb
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${ME_CONFIG_MONGODB_ADMINUSERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${ME_CONFIG_MONGODB_ADMINPASSWORD}
+    volumes:
+      - ./.data:/data/db
+      - ./logs:/var/log/mongodb
+    networks:
+      - human-chatbot
+
+networks: 
+  human-chatbot:
+    name: human-chatbot
+    external: true

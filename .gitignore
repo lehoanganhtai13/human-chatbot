@@ -9,6 +9,11 @@ __pycache__/
 # Data and cache
 .data/
 cache/
+backup/
+
+# service logs
+logs/
+prometheus_multiproc/
 
 # Distribution / packaging
 .Python
@@ -81,6 +86,7 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+.ipynb
 
 # IPython
 profile_default/

@@ -22,8 +22,6 @@ services:
       retries: 3
     networks:
       - human-chatbot
-    env_file:
-      - .env
 
   milvus-standalone:
     hostname: milvus-standalone
@@ -56,8 +54,6 @@ services:
         condition: service_healthy
     networks:
       - human-chatbot
-    env_file:
-      - .env
 
   milvus-attu:
     hostname: milvus-attu
@@ -68,7 +64,7 @@ services:
       NO_PROXY: localhost,milvus-etcd,milvus-standalone,minio-storage,${NETWORK_SUBNET}
       no_proxy: localhost,mulvus-etcd,milvus-standalone,minio-storage,${NETWORK_SUBNET}
     ports:
-      - "3000:3000"
+      - "3001:3000"
     depends_on:
       milvus-standalone:
         condition: service_healthy
@@ -76,8 +72,6 @@ services:
         condition: service_healthy
     networks:
       - human-chatbot
-    env_file:
-      - .env
 
 networks:
   human-chatbot:
