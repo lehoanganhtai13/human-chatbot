@@ -41,8 +41,7 @@ The following steps will help you to get the system up and running:
 ### GPU Memory Utilization 🖥️
 - The `GPU_MEMORY_UTILIZATION` value in the `.env` file should be set such that the total GPU memory multiplied by this value meets the minimum required GPU memory.
 - For example, if you have an RTX 4060 Ti with 16GB of memory:
-  - To host the embedding model, set `GPU_MEMORY_UTILIZATION` to at least `0.2`.
-  - To host the local LLM, set `GPU_MEMORY_UTILIZATION` to at least `0.75`.
+  - To host the local LLM, set `GPU_MEMORY_UTILIZATION` to at least `0.55` to ensure **Vllm** has at least **9GB** memory to host the model.
   - Higher values will result in higher throughput for the LLM.
 
 ### Setup Instructions 👨🏻‍💻
