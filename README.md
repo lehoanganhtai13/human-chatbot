@@ -33,6 +33,18 @@ The following steps will help you to get the system up and running:
 - If you want to use the **local LLM** instead of the OpenAI API, you need a minimum GPU memory of `12GB`.
 - For optimal results while saving costs, you can combine both the local LLM and the OpenAI API by adjusting [llm_config.json](./services/chatbot/config/llm_config.json) file to select the provider for each LLM according to your preference. This file allows you to specify whether to use the local LLM or the OpenAI API, as well as other parameters like `temperature` and `max_new_tokens` (**not recommended to adjust these parameters**).
 
+### GPU Compute Capability 🖥️
+- Your GPU must have a compute capability of at least `7.5`.
+- If your GPU has a compute capability of `8.0` or higher, set `LOCAL_LLM_DTYPE` in the `.env` file to `bfloat16`.
+- If your GPU has a compute capability of `7.5`, set `LOCAL_LLM_DTYPE` in the `.env` file to `float16`.
+
+### GPU Memory Utilization 🖥️
+- The `GPU_MEMORY_UTILIZATION` value in the `.env` file should be set such that the total GPU memory multiplied by this value meets the minimum required GPU memory.
+- For example, if you have an RTX 4060 Ti with 16GB of memory:
+  - To host the embedding model, set `GPU_MEMORY_UTILIZATION` to at least `0.2`.
+  - To host the local LLM, set `GPU_MEMORY_UTILIZATION` to at least `0.75`.
+  - Higher values will result in higher throughput for the LLM.
+
 ### Setup Instructions 👨🏻‍💻
 
 - Create network for the whole system. This will create network `human-chatbot` and create an `.env` file with the corresponding value of the network subnet:
@@ -82,25 +94,29 @@ The following steps will help you to get the system up and running:
    │   ├── .data
    │   ├── docker-compose.yaml
    │   └── falkordb.conf
-   ├── chatbot
-   │   ├── OpenAI
-   │   ├── client
-   │   ├── config
-   │   ├── data
-   │   ├── prompt
-   │   ├── query
-   │   ├── server
-   │   ├── utils
-   │   ├── chatbot_app.py
-   │   ├── Dockerfile
-   │   ├── docker-compose.yaml
-   │   └── requirements.txt
-   └── Makefile
+   └── chatbot
+       ├── OpenAI
+       ├── client
+       ├── config
+       ├── data
+       ├── prompt
+       ├── query
+       ├── server
+       ├── utils
+       ├── chatbot_app.py
+       ├── Dockerfile
+       ├── docker-compose.yaml
+       └── requirements.txt
    ```
 - Setup all the base services, including `storage`, `vector database`, `graph database` and `model serving`:
-   ```bash
-   make up-setup
-   ```
+  - Use this command if you only host embedding model:
+    ```bash
+    make up-setup
+    ```
+  - Use this command if you want to host both embedding model and your own local LLM:
+    ```bash
+    make up-setup-with-llm
+    ```
 
 - Then, when all the base services are ready, we can now start the server:
    ```bash
