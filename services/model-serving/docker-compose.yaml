@@ -57,6 +57,7 @@ services:
       "--model", "${LOCAL_LLM_MODEL_ID}",
       "--device", "${LLM_DEVICE}",
       "--max-model-len", "${MAX_CONTEXT_LEN}",
+      "--max-seq-len-to-capture", "${MAX_SEQUENCE_LENGTH}",
       "--gpu-memory-utilization", "${GPU_MEMORY_UTILIZATION}",
       "--dtype", "${LOCAL_LLM_DTYPE}",
       "--trust-remote-code",
