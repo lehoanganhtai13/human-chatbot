@@ -104,6 +104,7 @@ class  Generator():
             use_async=True
         )
         self.streaming = streaming
+        self.llm = llm
 
     async def generate(self, query: str, nodes: List[NodeWithScore], language: str = "english", new_prompt: bool = False, kwargs: dict = None) -> RESPONSE_TEXT_TYPE:
         if self.streaming:

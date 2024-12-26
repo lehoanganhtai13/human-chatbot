@@ -233,6 +233,12 @@ class ChatbotServer:
             )
             future.result() # Wait for the warm-up to finish
 
+    def cleanup(self):
+        """Clean up the chatbot server."""
+
+        print("Disconnecting the OpenAI WebSocket...")
+        self.generator.llm.websocket_client.ws.close()
+
     def init_llm(self, task):
         """Initialize the LLM model for a specific task."""
 
@@ -497,22 +503,4 @@ class ChatbotServer:
             print(f"Error in post-processing: {e}")
             import traceback
             traceback.print_exc()
-
-    async def chat_gameplay(self, type: str, data: dict):
-        """Generate a corresponding response based on the gameplay type."""
-
-        self.start = time.time()
-
-        lan = "korean"
-        message = f"GAMEPLAY-{type}"
-        mixed_query = f"|{self.user_id}|{self.assistant_id}|{message}"
-        retrieved_nodes = [NodeWithScore(node=TextNode(text=""), score=0)]
-
-        streamer = await self.generator.generate(
-            query=mixed_query, nodes=retrieved_nodes,
-            language=lan, new_prompt=True, kwargs=data
-        )
-        self.response_text = StringIO()
-
-        return self.async_response_generator(streamer)
     

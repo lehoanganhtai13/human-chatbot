@@ -100,6 +100,8 @@ class ChatbotManager:
     async def remove(self, key: str):
         async with self.lock.write_lock():
             if key in self.chatbots:
+                chatbot = self.chatbots[key]
+                chatbot.cleanup()
                 del self.chatbots[key]
 
 @asynccontextmanager
@@ -144,7 +146,7 @@ async def offer(
 @app.websocket("/ws/chat/{user_id}/{avatar_id}")
 async def websocket_chat(websocket: WebSocket, user_id: str, avatar_id: str):
     """Handle WebSocket connection for chatbot chat interaction."""
-    connection_key = f"{user_id}_{avatar_id}_chatting"
+    connection_key = f"{user_id}_{avatar_id}"
     old_websocket = await connection_manager.connect(connection_key, websocket)
 
     try:
@@ -189,14 +191,17 @@ async def websocket_chat(websocket: WebSocket, user_id: str, avatar_id: str):
                 await websocket.send_text(f"error: {str(e)}")
 
     except WebSocketDisconnect:
+        print("===============================================")
         print(f"WebSocket disconnected for {connection_key}")
     except Exception as e:
+        print("===============================================")
         print(f"Error in websocket handler: {e}")
     finally:
         await connection_manager.disconnect(connection_key)
         await chatbot_manager.remove(connection_key)
         print(f"Cleaned up resources for {connection_key}")
         print(f"Chatbot {avatar_id} of user {user_id} disconnected from chat.")
+        print("===============================================")
 
 @app.delete("/delete_chatbot/{user_id}/{avatar_id}")
 async def delete_avatar(user_id: str, avatar_id: str):
