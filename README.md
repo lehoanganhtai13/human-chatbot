@@ -135,6 +135,9 @@ The following steps will help you to get the system up and running:
     ```bash
     IMAGE                                       STATUS                      PORTS                                                                                      NAMES
     chatbot/chatbot-server:latest               Up 25 seconds               0.0.0.0:8050->8000/tcp, :::8050->8000/tcp                                                  chatbot-server
+    vllm/vllm-openai:v0.6.5                     Up 23 seconds               0.0.0.0:8013->8000/tcp, :::8011->8000/tcp                                                  model-serving-llm
+    chatbot/model-serving-reranker:latest       Up 23 seconds               0.0.0.0:8012->8000/tcp, :::8012->8000/tcp                                                  model-serving-reranker
+    chatbot/model-serving-embedder:latest       Up 23 seconds               0.0.0.0:8011->8000/tcp, :::8011->8000/tcp                                                  model-serving-embedder
     falkordb/falkordb:edge                      Up 20 seconds               0.0.0.0:3000->3000/tcp, :::3000->3000/tcp, 0.0.0.0:6380->6379/tcp, :::6380->6379/tcp       falkordb
     mongo:latest                                Up 20 seconds               0.0.0.0:27017->27017/tcp, :::27017->27017/tcp                                              mongodb
     valkey/valkey:8.0.1                         Up 20 seconds               0.0.0.0:6379->6379/tcp, :::6379->6379/tcp                                                  valkey

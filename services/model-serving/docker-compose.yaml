@@ -60,9 +60,9 @@ services:
       "--gpu-memory-utilization", "${GPU_MEMORY_UTILIZATION}",
       "--dtype", "${LOCAL_LLM_DTYPE}",
       "--trust-remote-code",
-      "--disable-frontend-multiprocessing",
-      "--enforce-eager",
-      "--port", "8000"
+      "--port", "8000",
+      # "--disable-frontend-multiprocessing", # Uncomment this line if you're hosting LLM in WSL, which will cause error "zmq.error.ZMQError: Operation not supported"
+      # "--enforce-eager", # Uncomment this line if your GPU memory is not enough
     ]
     networks:
       - human-chatbot
