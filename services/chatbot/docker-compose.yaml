@@ -18,6 +18,7 @@ services:
       - ./logs:/app/logs
       - ./prometheus_multiproc:/app/prometheus_multiproc
       - ./../../environment:/app/environment:ro
+      - ./../model-serving/.cache:/app/cache
       - .:/app/chatbot
     command: uvicorn chatbot.chatbot_app:app --host 0.0.0.0 --port 8000 --reload --loop asyncio
     networks:

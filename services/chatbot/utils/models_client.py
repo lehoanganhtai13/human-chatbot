@@ -3,11 +3,11 @@ import threading
 import tiktoken
 from typing import Any, List, Dict
 
+from transformers import AutoTokenizer
 from llama_index.core.embeddings import BaseEmbedding
 from llama_index.core.llms import CompletionResponse, CompletionResponseGen, CustomLLM, LLMMetadata
 from llama_index.core.llms.callbacks import llm_completion_callback
 from openai import OpenAI
-import json
 
 from chatbot.utils.chat_store import CacheChatStore
 from chatbot.OpenAI.websocket_client import OpenAIWebSocketClient, OPENAI_WEBSOCKET_URI
@@ -149,8 +149,12 @@ class LLMCore(CustomLLM):
 
     def count_tokens(self, text: str, model_id: str) -> int:
         """Count the number of tokens in the text."""
-        encoding = tiktoken.encoding_for_model(model_id)
-        tokens = encoding.encode(text)
+        if self.use_openai:
+            encoding = tiktoken.encoding_for_model(model_id)
+            tokens = encoding.encode(text)
+        else:
+            tokenizer = AutoTokenizer.from_pretrained(model_id, cache_dir="/app/cache")
+            tokens = tokenizer.tokenize(text)
         return len(tokens)
 
     def format_message(self, text: str) -> List[Dict]:
@@ -195,6 +199,11 @@ class LLMCore(CustomLLM):
             for message in messages:
                 total_tokens += self.count_tokens(message["content"], self._model_id)
             print(f"Total tokens send to OpenAI: {total_tokens}")
+        else:
+            total_tokens = 0
+            for message in messages:
+                total_tokens += self.count_tokens(message["content"], self._model_id)
+            print(f"Total tokens send to LLM: {total_tokens}")
             
         client = OpenAI(api_key=self.OPENAI_API_KEY, base_url=url)
         if generate_type == "generate":
