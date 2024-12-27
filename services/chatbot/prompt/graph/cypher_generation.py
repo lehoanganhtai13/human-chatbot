@@ -22,6 +22,8 @@ Example 3:
 Input sentence: "Find all persons born in New York."
 Cypher query: MATCH (p:PERSON)-[:BORN_IN]->(l:LOCATION {name: 'New York'}) RETURN p.name
 ---------------------
+##### REAL DATA #####
+---------------------
 -SCHEMA INFORMATION-
 {schema}
 ---------------------

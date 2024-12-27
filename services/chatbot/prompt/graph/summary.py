@@ -25,7 +25,8 @@ Conversation history: {speaker} said to {listener}, "I'm struggling with my home
 Input sentence: {speaker} said to {listener}, "Do you know how to solve it, help me?"
 Output: Does {listener} know how to solve {speaker}'s homework?
 ---------------------
--REAL DATA-
+##### REAL DATA #####
+---------------------
 Rewrite the following sentence based on the given conversation history (if provided) or the context provided by the words preceding the quoted sentence:  
 Conversation history: {conversation_history}
 Input sentence: {input_sentence}
@@ -73,7 +74,8 @@ Conversation history:
 Input sentence: {speaker} said to {listener}, "Oh, we're planning to visit the new museum downtown." and {listener} replied, "That's a great idea."
 Output: {speaker} is going out with Aunt Mary to visit the new museum downtown. {listener} thinks it's a great idea.
 ---------------------
--REAL DATA-
+##### REAL DATA #####
+---------------------
 Summarize the following text based on the given conversation history context (if provided) or the context provided by the words preceding the quoted sentence:
 Conversation history: 
 {conversation_history}

@@ -367,6 +367,7 @@ class ChatbotServer:
             translate_time = time.time()
             self.final_query = self.en_translator.translate(text=message, force_target=True)
             print(f"Time taken to translate the query: {time.time() - translate_time:.4f} seconds")
+            print(f"Translated query: {self.final_query}")
 
         mixed_query = f"|{self.user_id}|{self.assistant_id}|{message}"
 
@@ -479,8 +480,9 @@ class ChatbotServer:
 
                 # Summarize the extracted chat
                 memory_message = self.cache_chat_store.transform_message_pair(
-                    extracted_chat, self.summarized_user_id, self.summarized_assistant_id, self.user_id # TODO: optimize to summarize all the important details (name, time, etc.)
+                    extracted_chat, self.summarized_user_id, self.summarized_assistant_id, translated_cache_id # TODO: optimize to summarize all the important details (name, time, etc.)
                 )
+                print("Summarized memory message:", memory_message)
                 memory_document = Document(text=memory_message)
 
                 # Insert the summarized chat memory into the graph store

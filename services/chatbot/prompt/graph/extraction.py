@@ -85,6 +85,8 @@ Output:
     ]
 }}
 ---------------------
+##### REAL DATA #####
+---------------------
 Now, extract entities:
 Schema information (entity types with existing entitiy names):
 {schema}
@@ -166,6 +168,8 @@ Output:
     }},
     ...
 ]
+---------------------
+##### REAL DATA #####
 ---------------------
 -INITIAL ONTOLOGY-
 Entity Types: {allowed_entity_types}

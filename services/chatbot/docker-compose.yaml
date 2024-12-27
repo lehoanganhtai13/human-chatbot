@@ -12,6 +12,7 @@ services:
     ports:
       - "8050:8000"
     environment:
+      TOKENIZERS_PARALLELISM: "false"
       PROMETHEUS_MULTIPROC_DIR: /app/prometheus_multiproc
       ENVIRONMENT_FILE: /app/environment/.env
     volumes:
