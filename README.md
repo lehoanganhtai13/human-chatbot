@@ -20,7 +20,25 @@ This project is dedicated to building a personalized, human-like assistant chatb
 - **Specialized Knowledge Integration** *(Coming Soon)*:  
   Alongside the assistant’s personalized background defined through the initial instruction, users will be able to equip their assistant with specialized knowledge in any field by providing relevant documents (e.g., PDFs, DOCX files). This feature will enable the assistant to act as a domain expert or guide in areas like medicine, technology, or education, enhancing its utility and versatility. 
 
+- **In-depth Domain Analysis** *(Coming Soon)*:  
+  The assistant will utilize an **agent-based mechanism** to enhance its reasoning capabilities, allowing it to perform in-depth analysis of complex problems within the knowledge domains provided by the user. This approach empowers the assistant to decompose intricate queries, reason step-by-step, and provide insightful solutions, making it a reliable tool for tackling challenging problems and supporting logical decision-making.
+
 This project utilizes the **Retrieval-Augmented Generation (RAG)** framework enhanced with graph-knowledge-based techniques to achieve high-quality, contextual, and personalized responses.  
+
+---
+
+### Progress 🔄
+
+![](https://geps.dev/progress/60)
+
+| Feature                          | Status         | Details                                                                 |
+|----------------------------------|----------------|-------------------------------------------------------------------------|
+| Emotionally Rich Conversations   | ✅ Completed   | Engaging, warm, and empathetic dialogue.                               |
+| Human-like Personalization       | ✅ Completed   | Adaptive memory and tone personalization.                              |
+| Dynamic Adaptability             | ✅ Completed   | Switch conversational styles dynamically.                              |
+| Advanced Memory System           | 🚧 In Progress | Persistent memory for long-term personalization.                       |
+| Specialized Knowledge Integration| 🚧 In Progress | Integrate knowledge from user-provided documents (e.g., PDFs, DOCX).   |
+| In-depth Domain Analysis         | 🚧 In Progress | Agent-based reasoning for complex problem analysis and solutions.      |
 
 ---
 
@@ -163,6 +181,7 @@ Our **GraphRAG-powered Chatbot System** integrates:
 2. **Contextual Understanding**: RAG is enhanced with graph-based reasoning to provide highly contextual responses.  
 3. **Memory System**: Persistent memory enables adaptive, user-specific interactions.  
 4. **Document-Based Knowledge** *(In Development)*: Process and integrate knowledge from user-provided documents to enrich the assistant's expertise in specific fields.  
+5. **Deep Problem Analysis** *(In Development)*: Utilize domain knowledge and agent-based reasoning mechanisms for performing step-by-step in-depth analysis of complex user queries, supporting logical reasoning and personalized problem-solving.
 
 ---
 
