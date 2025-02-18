@@ -9,7 +9,7 @@ from asyncio import Lock, sleep
 import time
 
 from chatbot.server.chatbot_server import ChatbotServer
-from chatbot.utils.graph_store import Neo4jGraphStore, FalkorDBGraphStore
+from chatbot.core.graph_stores import Neo4jGraphStore, FalkorDBGraphStore
 
 
 class AsyncRWLock:

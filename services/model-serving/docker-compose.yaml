@@ -42,6 +42,7 @@ services:
     ports:
       - "8013:8000"
     environment:
+      HUGGING_FACE_HUB_TOKEN: ${HF_TOKEN}
       HF_HUB_ENABLE_HF_TRANSFER: False
       NVIDIA_VISIBLE_DEVICES: all
     deploy:

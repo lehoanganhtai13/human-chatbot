@@ -11,12 +11,12 @@ from llama_index.core.indices.property_graph import DynamicLLMPathExtractor
 from llama_index.core.schema import NodeWithScore
 
 from chatbot.config.system_config import SETTINGS
-from chatbot.data.character_story import DR_CHOI_REWRITE
-from chatbot.utils.chat_store import CacheChatStore, PersistentChatStore
+from chatbot.data.character_story import MINH_FAMILY_SAMPLE_STORY
+from chatbot.core.chat_stores import CacheChatStore, PersistentChatStore
 from chatbot.utils.generator import Generator, ResponseMode
-from chatbot.utils.graph_retriever import Retriever, CustomSubRetriever
-from chatbot.utils.graph_store import FalkorDBGraphStore, parse_dynamic_triplets_with_props
-from chatbot.utils.models_client import EmbedderCore, LLMCore
+from chatbot.core.retriever.graph_retriever import Retriever, CustomSubRetriever
+from chatbot.core.graph_stores import FalkorDBGraphStore, parse_dynamic_triplets_with_props
+from chatbot.core.model_clients import EmbedderCore, LLMCore
 from chatbot.utils.predefined_entities import (
     ENTITY_PROPERTIES,
     ENTITY_TYPES,
@@ -25,18 +25,18 @@ from chatbot.utils.predefined_entities import (
 )
 from chatbot.utils.translator import Translator
 
-from chatbot.prompt.graph.extraction import (
+from chatbot.prompt.graph.triplet_extraction import (
     EXTRACT_ENTITIES_PROMPT_TEMPLATE,
     EXTRACT_GRAPH_TRIPLETS_PROMPT_TEMPLATE
 )
-from chatbot.prompt.instruction.summary import INSTRUCTION_SUMMARY_PROMPT
-from chatbot.prompt.instruction.extraction import ASSISTANT_NAME_EXTRACTION_PROMPT
+from chatbot.prompt.instruction.instruction_summarization import INSTRUCTION_SUMMARY_PROMPT
+from chatbot.prompt.instruction.name_extraction import ASSISTANT_NAME_EXTRACTION_PROMPT
 from chatbot.prompt.routing.query_routing import QUERY_ROUTING_PROMPT_TEMPLATE
 from chatbot.prompt.translate.translate import TRANSLATION_PROMPT
 
 
 class ChatbotServer:
-    def __init__(self, user_id: str, avatar_name: str = "Choi", use_default_story: bool = True, avatar_instruction_text: str = "", warm_up: bool = True):
+    def __init__(self, user_id: str, avatar_name: str = "Minh", use_default_story: bool = True, avatar_instruction_text: str = "", warm_up: bool = True):
 
         # Define the user ID, assistant name, and summarized user ID and assistant ID for message summarization and query transformation
         if not use_default_story:
@@ -48,15 +48,15 @@ class ChatbotServer:
         else:
             self.user_id = user_id
             self.assistant_id = avatar_name
-            self.assistant_name = "Choi"
-            self.summarized_user_id = "David"
-            self.summarized_assistant_id = "Choi"
+            self.assistant_name = "Minh"
+            self.summarized_user_id = "Bao"
+            self.summarized_assistant_id = "Minh"
 
         # Load the LLM config
-        self.llm_config = {}
-        with open("./chatbot/config/llm_config.json", "r") as f:
-            self.llm_config = json.load(f)
-            print("Loaded LLM configurations:", self.llm_config)
+        self.models_config = {}
+        with open("./chatbot/config/models_config.json", "r") as f:
+            self.models_config = json.load(f)
+            print("Loaded model configurations:", self.models_config)
 
         print("Initializing the translator and language detector...")
         self.en_translator = Translator(
@@ -95,7 +95,7 @@ class ChatbotServer:
         print("Initializing the LLM instruction summarizer...")
         instruction_summarize_llm = self.init_llm("instruction_summarize_llm")
 
-        # Build a new graph memory if the assistant is not Choi and the avatar instruction text is given
+        # Build a new graph memory if the assistant is not Minh and the avatar instruction text is given
         character_stories = []
         translated_instruction = ""
         if not use_default_story:
@@ -130,15 +130,15 @@ class ChatbotServer:
                     else:
                         character_stories.append(Document(text=instruction))
             else:
-                # Use the default Choi story
-                sentences = [sentence.strip() for sentence in DR_CHOI_REWRITE.strip().split(".") if sentence.strip()]
+                # Use the default Minh story
+                sentences = [sentence.strip() for sentence in MINH_FAMILY_SAMPLE_STORY.strip().split(".") if sentence.strip()]
                 mid_point = len(sentences) // 2
                 document1 = Document(text=". ".join(sentences[:mid_point]) + ".")
                 document2 = Document(text=". ".join(sentences[mid_point:]) + ".")
                 character_stories = [document1, document2]
         else:
-            # Use the default Choi story
-            sentences = [sentence.strip() for sentence in DR_CHOI_REWRITE.strip().split(".") if sentence.strip()]
+            # Use the default Minh story
+            sentences = [sentence.strip() for sentence in MINH_FAMILY_SAMPLE_STORY.strip().split(".") if sentence.strip()]
             mid_point = len(sentences) // 2
             document1 = Document(text=". ".join(sentences[:mid_point]) + ".")
             document2 = Document(text=". ".join(sentences[mid_point:]) + ".")
@@ -174,13 +174,13 @@ class ChatbotServer:
         )
 
         print("Initializing the graph retriever...")
-        cypher_generate_llm = self.init_llm("cypher_generate_llm")
+        context_retrieve_llm = self.init_llm("context_retrieve_llm")
         query_transform_llm = self.init_llm("query_transform_llm")
         sub_retriever = CustomSubRetriever(
             graph_store=self.graph_store.index.property_graph_store,
             include_text=True,
             embed_model=embedder,
-            llm=cypher_generate_llm,
+            llm=context_retrieve_llm,
             similarity_top_k=10,
             path_depth=1,
         )
@@ -242,14 +242,14 @@ class ChatbotServer:
     def init_llm(self, task):
         """Initialize the LLM model for a specific task."""
 
-        config = self.llm_config.get(task)
+        config = self.models_config["LLM"][task]
         use_openai = config["provider"] == "openai"
         max_new_tokens = SETTINGS.LONG_MAX_NEW_TOKENS if config["max_new_tokens"] == "long" else SETTINGS.MAX_NEW_TOKENS
         temperature = config["temperature"]
 
         return LLMCore(
             uri=SETTINGS.LLM_SERVING_URL,
-            model_id=SETTINGS.OPENAI_MODEL_ID if use_openai else SETTINGS.LOCAL_LLM_MODEL_ID,
+            model_id=SETTINGS.OPENAI_LLM_ID if use_openai else SETTINGS.LOCAL_LLM_MODEL_ID,
             OPENAI_API_KEY=SETTINGS.OPENAI_API_KEY if use_openai else "EMPTY",
             use_openai=use_openai,
             max_new_tokens=max_new_tokens,
@@ -380,8 +380,10 @@ class ChatbotServer:
                 retrieve_time = time.time()
 
                 # Decide whether to retrieve nodes based on the routing result
+                routing_time = time.time()
                 response = self.routing_llm.complete(prompt=PromptTemplate(QUERY_ROUTING_PROMPT_TEMPLATE).format(text=self.final_query)).text
                 routing_result = int(json.loads(response)["retrieval_type"])
+                print(f"Time taken to route the query: {time.time() - routing_time:.4f} seconds")
                 print(f"Routing result: {routing_result}")
                 if routing_result == 0:
                     break # No need to retrieve nodes
@@ -396,6 +398,7 @@ class ChatbotServer:
                 retrieved_nodes = await self.graph_retriever.async_retrieve(
                     query=self.final_query,
                     prompt_template_str=prompt_template,
+                    transform_query_with_llm=True,
                     user_id=self.summarized_user_id,
                     assistant_id=self.summarized_assistant_id,
                 )

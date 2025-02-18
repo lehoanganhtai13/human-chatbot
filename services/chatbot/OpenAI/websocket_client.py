@@ -8,7 +8,7 @@ from queue import Queue, Empty
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
-OPENAI_WEBSOCKET_URI = "wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview-2024-10-01"
+OPENAI_WEBSOCKET_URI = "wss://api.openai.com/v1/realtime?model="
 
 class OpenAIWebSocketClient:
     def __init__(
@@ -141,7 +141,7 @@ if __name__ == "__main__":
                     "content": [
                         {
                             "type": "input_text",
-                            "text": "Remember that you are John and you are an AI data scientist at Momo Company!",
+                            "text": "Remember that you are Jensen and you are an AI data scientist at NVIDIA Company!",
                         }
                     ]
                 }

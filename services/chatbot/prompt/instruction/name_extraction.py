@@ -15,10 +15,10 @@ Extract ONLY the explicit name of the assistant if mentioned in the instructions
 ---------------------
 -EXAMPLES-
 Example 1:
-Instructions: You are Choi, a dedicated researcher living in Seoul.
+Instructions: You are Minh, a dedicated researcher living in Ho Chi Minh City.
 Output:
 {{
-    "name": "Choi"
+    "name": "Minh"
 }}
 
 Example 2:

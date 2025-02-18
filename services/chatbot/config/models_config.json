@@ -1,0 +1,64 @@
+{
+    "LLM": {
+        "memory_summarize_llm": {
+            "model_id": "meta-llama/Llama-3.3-70B-Instruct",
+            "provider": "openai",
+            "temperature": 0.7,
+            "max_new_tokens": "short",
+            "3rd_party_url": "https://api.hyperbolic.xyz"
+        },
+        "instruction_summarize_llm": {
+            "model_id": "meta-llama/Llama-3.3-70B-Instruct",
+            "provider": "openai",
+            "temperature": 0.0,
+            "max_new_tokens": "long",
+            "3rd_party_url": "https://api.hyperbolic.xyz"
+        },
+        "translate_llm": {
+            "model_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+            "provider": "openai",
+            "temperature": 0.0,
+            "max_new_tokens": "short",
+            "3rd_party_url": "https://api.hyperbolic.xyz"
+        },
+        "graph_extract_llm": {
+            "model_id": "gpt-4o-mini",
+            "provider": "openai",
+            "temperature": 0.0,
+            "max_new_tokens": "long",
+            "3rd_party_url": ""
+        },
+        "context_retrieve_llm": {
+            "model_id": "gpt-4o-mini",
+            "provider": "openai",
+            "temperature": 0.0,
+            "max_new_tokens": "short",
+            "3rd_party_url": ""
+        },
+        "query_transform_llm": {
+            "model_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+            "provider": "openai",
+            "temperature": 0.0,
+            "max_new_tokens": "short",
+            "3rd_party_url": "https://api.hyperbolic.xyz"
+        },
+        "routing_llm": {
+            "model_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+            "provider": "local",
+            "temperature": 0.0,
+            "max_new_tokens": "short",
+            "3rd_party_url": "https://api.hyperbolic.xyz"
+        },
+        "response_llm": {
+            "model_id": "gpt-4o-mini",
+            "provider": "openai",
+            "temperature": 0.7,
+            "max_new_tokens": "short",
+            "3rd_party_url": ""
+        }
+    },
+    "Embedding": {
+        "model_id": "text-embedding-3-small",
+        "provider": "local"
+    }
+}

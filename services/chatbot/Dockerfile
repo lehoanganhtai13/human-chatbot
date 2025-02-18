@@ -19,6 +19,7 @@ RUN pip install 'uvicorn[standard]'
 
 COPY ./data /app/chatbot/data
 COPY ./config /app/chatbot/config
+COPY ./core /app/chatbot/core
 COPY ./prompt /app/chatbot/prompt
 COPY ./query /app/chatbot/query
 COPY ./utils /app/chatbot/utils

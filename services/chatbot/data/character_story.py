@@ -1,31 +1,13 @@
-DR_CHOI_ORIGINAL = (
-"In the heart of Seoul, where the city's vibrancy pulses through every street, there lives a man named Choi. "
-"Choi is a dedicated researcher, a son, and most importantly, a person who seeks to understand the mysteries "
-"of the mind, particularly the mind of his beloved father, David. Choi grew up in a close-knit family where "
-"love was the foundation of every interaction. Choi's father, David, was always the pillar of strength in the "
-"family. Though David was born and raised in the United States, he moved to Korea for work, where he met Choi's "
-"mother, fell in love, and decided to make Korea his home. David was a man of wisdom, full of stories from his "
-"life in the States, stories that Choi never tired of hearing. As Choi grew older, he found himself drawn to the "
-"world of medicine and research. Choi was fascinated by the brain and how it functioned, but it wasn't until his "
-"father began showing signs of memory loss that Choi's interest turned into a passionate mission. Choi watched as "
-"the man who once knew everything about him, who could recall every detail of their life together, slowly began to "
-"forget. The diagnosis came as a shock to the family — Alzheimer's disease. Choi couldn't believe that his father, "
-"the man who had taught him so much, could be slipping away into the fog of this unforgiving illness. But instead "
-"of despair, Choi turned his grief into determination. Choi enrolled in medical school and specialized in neurology, "
-"dedicating his life to understanding Alzheimer's and finding ways to combat it. Years passed, and Choi became a "
-"leading researcher in the field. Choi was not just a doctor but a son on a mission. Choi knew that every breakthrough "
-"he made was not just for the countless patients suffering from this disease but also for his father, who was now "
-"a shadow of the man he once was."
-)
+MINH_FAMILY_SAMPLE_STORY = """
+Minh, whose full name is Nguyen Anh Minh, currently resides in Ho Chi Minh City - a bustling metropolis renowned for its dynamism and opportunities. At 28 years old, born on March 5, 1995, he is a dedicated AI engineer whose passion for innovation was sparked during his final year at Ho Chi Minh City University of Technology. His groundbreaking thesis on intelligent control systems not only earned him accolades but also set him on a transformative journey into the realm of artificial intelligence.
 
-DR_CHOI_REWRITE = (
-"Choi lives in Seoul, a vibrant city filled with energy. He is a dedicated researcher and a loving son. "
-"Choi grew up in a close-knit family where love and support were the foundation. His father, David, was born and raised "
-"in the United States but later moved to Korea for work. In Korea, David met Choi's mother, and they started a family together. "
-"David was a source of wisdom and strength for the family, often sharing stories about his life in the United States, which Choi loved to hear. "
-"From a young age, Choi was drawn to medicine and research, especially topics related to the brain and its functions. "
-"When David began to show signs of memory loss, Choi's curiosity became a mission. David was diagnosed with Alzheimer's disease, "
-"which deeply affected the family. Choi decided to specialize in neurology, enrolling in medical school to understand Alzheimer's better. "
-"He dedicated his life to researching the disease and finding ways to treat it. Over the years, Choi became a leading expert in neurology, "
-"driven by his determination to help patients and his desire to support his father, who continued to struggle with memory loss."
-)
+Minh's father, Nguyen Anh Bao, was born on August 12, 1965, in Thua Thien Hue, Vietnam, into a modest farming family. Immersed in the simplicity and hard work of rural life, Bao embraced a spirit of determination from an early age. In his twenties, he embarked on a career as a container truck driver, transporting wood across the countryside — a role that tested his resolve and broadened his horizons. By his early thirties, yearning for new challenges and greater prospects, he moved to Saigon, where he took up work as a taxi driver, a decision that would change the course of his life.
+
+It was in Saigon, also known as Ho Chi Minh City, that Bao's path intersected with that of Minh's mother, Nguyen Thi Tho, who was born on February 20, 1970. Tho began her career as a clothing factory worker in a local garment factory, where her skill and diligence quickly set her apart. Their meeting in the vibrant streets of Saigon led to a deep and enduring connection, and in 1990, Bao and Tho married, laying the foundation for a family built on perseverance and mutual support. Shortly after, the couple rented a small space to open a sewing shop. Initially, their business flourished, with orders surging in as the community embraced their meticulous craftsmanship. However, as the market evolved and more people began purchasing ready-made clothes, the sewing shop faced unforeseen challenges.
+
+In 2013, when Minh turned 18 and began his studies at Ho Chi Minh City University of Technology, his parents seized the moment for a new beginning. They transitioned from their cramped 5m x 5m home to a larger, street-facing property valued at approximately 7 billion VND — a move that provided both a comfortable living space and a renewed base for their business operations. Around this time, capitalizing on his extensive local knowledge and entrepreneurial spirit, Bao transitioned into a career as a real estate broker, marking another significant milestone in the family's evolving journey.
+
+Minh's academic path in automatic control engineering was marked by excellence and an ever-growing curiosity. However, his exposure to cutting-edge artificial intelligence concepts during his thesis work illuminated a new calling. Immediately after graduating in 2018, Minh made a pivotal decision to shift his career focus towards AI. Embracing this new field with enthusiasm and determination, he set out on a path that would eventually lead him to become a respected expert in artificial intelligence.
+
+Minh's story is one of resilience, transformation, and the enduring strength of family. The journey of his parents — from humble agricultural roots and challenging early careers to seizing new opportunities in Saigon — has instilled in him the values of hard work, adaptability, and a relentless pursuit of excellence. Today, as Minh continues to push the boundaries of AI innovation, he carries forward the legacy of his parents, inspiring those around him and forging a brighter future through technology.
+"""

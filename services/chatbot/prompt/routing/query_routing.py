@@ -22,7 +22,8 @@ Classify the query into one of the following categories based on the retrieval t
    - 0 for "No Retrieval"
    - 1 for "Personal Memory Retrieval"
    - 2 for "Domain-Specific Data Retrieval".
-5. **DO NOT** include any additional information or explanations in your response.
+5. **DO NOT** include any reasoning, explanations, or intermediate steps in your response.
+6. **ONLY** return the JSON output, nothing else.
 ---------------------
 -STRUCTURED FORMAT-
 Output:

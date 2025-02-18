@@ -6,8 +6,8 @@ from llama_index.core.response_synthesizers import ResponseMode
 from llama_index.core.schema import NodeWithScore
 from llama_index.core.types import RESPONSE_TEXT_TYPE
 
-from chatbot.utils.chat_store import CacheChatStore
-from chatbot.utils.models_client import LLMCore
+from chatbot.core.chat_stores import CacheChatStore
+from chatbot.core.model_clients import LLMCore
 from chatbot.prompt.response.qa_prompt import (
     QA_PROMPT_TEMPLATE_WITH_CONTEXT, QA_PROMPT_TEMPLATE_WITHOUT_CONTEXT,
     CUSTOM_AVATAR_PROMPT_TEMPLATE_WITH_CONTEXT, CUSTOM_AVATAR_PROMPT_TEMPLATE_WITHOUT_CONTEXT
@@ -75,13 +75,15 @@ class  Generator():
             max_new_tokens: int = 256,
             streaming: bool = False,
             response_mode: ResponseMode = ResponseMode.SIMPLE_SUMMARIZE,
-            assistant_name : str = "Choi"
+            assistant_name : str = "Minh",
+            query_delimiter: str = "<|>"
     ):
         llm.chat_store = chat_store
+        llm.chat_delimiter = query_delimiter
 
         self.qa_prompt_with_context = PromptTemplate(QA_PROMPT_TEMPLATE_WITH_CONTEXT).partial_format(max_num_tokens=max_new_tokens)
         self.qa_prompt_without_context = PromptTemplate(QA_PROMPT_TEMPLATE_WITHOUT_CONTEXT).partial_format(max_num_tokens=max_new_tokens)
-        if assistant_name != "Choi":
+        if assistant_name != "Minh":
             self.qa_prompt_with_context = PromptTemplate(CUSTOM_AVATAR_PROMPT_TEMPLATE_WITH_CONTEXT).partial_format(
                 max_num_tokens=max_new_tokens, assistant_name=assistant_name
             )
@@ -104,7 +106,7 @@ class  Generator():
             use_async=True
         )
         self.streaming = streaming
-        self.llm = llm
+        self.query_delimiter = query_delimiter
 
     async def generate(self, query: str, nodes: List[NodeWithScore], language: str = "english", new_prompt: bool = False, kwargs: dict = None) -> RESPONSE_TEXT_TYPE:
         if self.streaming:
@@ -114,7 +116,7 @@ class  Generator():
             else:
                 self.stream_generator.update_prompts({"text_qa_template": self.qa_prompt_with_context.partial_format(language=language)})
                 
-            response = await self.stream_generator.asynthesize(query, nodes)
+            response = await self.stream_generator.asynthesize(f"{self.query_delimiter}{query}", nodes)
             return response.response_gen
         
         # Update the prompts based on the context
@@ -123,5 +125,5 @@ class  Generator():
         else:
             self.completion_generator.update_prompts({"text_qa_template": self.qa_prompt_with_context.partial_format(language=language)})
             
-        response = await self.completion_generator.asynthesize(query, nodes)
+        response = await self.completion_generator.asynthesize(f"{self.query_delimiter}{query}", nodes)
         return response.response

@@ -13,6 +13,8 @@ class Settings:
         if not status:
             raise Exception(f"Could not load environment variables from {env_file}")
 
+        os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
+
         # Model serving settings
         self.EMBEDDER_SERVING_URL = os.getenv("EMBEDDER_SERVING_URL", "http://localhost:8011")
         self.RERANKER_SERVING_URL = os.getenv("RERANKER_SERVING_URL", "http://localhost:8012")
@@ -23,8 +25,11 @@ class Settings:
         self.LONG_MAX_NEW_TOKENS = int(os.getenv("LONG_MAX_NEW_TOKENS", 6000))
         self.USE_OPENAI_API = check_bool(os.getenv("USE_OPENAI_API", True))
         self.OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "EMPTY")
-        self.OPENAI_RESPONSE_MODEL_ID = os.getenv("OPENAI_RESPONSE_MODEL_ID", "gpt-4o-mini")
-        self.OPENAI_MODEL_ID = os.getenv("OPENAI_MODEL_ID", "gpt-4o-mini")
+        self.OTHER_API_KEY = os.getenv("OTHER_API_KEY", "EMPTY")
+        self.RESPONSE_MODEL_ID = os.getenv("RESPONSE_MODEL_ID", "gpt-4o-mini")
+        self.OPENAI_LLM_ID = os.getenv("OPENAI_LLM_ID", "gpt-4o-mini")
+        self.OTHER_LLM_ID = os.getenv("OTHER_LLM_ID", "meta-llama/Llama-3.3-70B-Instruct")
+        self.OPENAI_EMBEDDING_ID = os.getenv("OPENAI_EMBEDDING_ID", "text-embedding-3-small")
 
         # Vector store settings
         self.MILVUS_URL = os.getenv("MILVUS_URL", "http://localhost:8003")
@@ -57,6 +62,11 @@ class Settings:
         self.GRAPH_STORE_PASSWORD = os.getenv("GRAPH_STORE_PASSWORD")
         self.GRAPH_STORE_BUILD = check_bool(os.getenv("GRAPH_STORE_BUILD", True))
         self.GRAPH_STORE_FORCE_BUILD = check_bool(os.getenv("GRAPH_STORE_FORCE_BUILD", False))
+        self.MAX_TRIPLETS_PER_CHUNK = int(os.getenv("MAX_TRIPLETS_PER_CHUNK", 10))
+        self.MAX_CLUSTER_SIZE = int(os.getenv("MAX_CLUSTER_SIZE", 10))
+        self.CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", 1200))
+        self.DESCRIPTION_SUMMARIZATION_MAX_RETRIES = int(os.getenv("DESCRIPTION_SUMMARIZATION_MAX_RETRIES", 3))
+        self.ENTITY_EXTRACTION_MAX_RETRIES = int(os.getenv("ENTITY_EXTRACTION_MAX_RETRIES", 1))
 
         # Retriever settings
         self.TOP_K_RETRIEVAL = int(os.getenv("TOP_K_RETRIEVAL", 5))
